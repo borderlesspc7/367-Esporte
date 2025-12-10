@@ -1,44 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { paths } from "./paths";
-import { ProtectedRoutes } from "./ProtectedRoutes";
+// import { ProtectedRoutes } from "./ProtectedRoutes";
+import { Auth } from "../pages/Auth/Auth";
 
 export const AppRoutes = () => {
-  function Home() {
-    return <div>Home</div>;
-  }
-
-  function Login() {
-    return <div>Login</div>;
-  }
-
-  function Register() {
-    return <div>Register</div>;
-  }
-
-  function Dashboard() {
-    return <div>Dashboard</div>;
-  }
+  // function Dashboard() {
+  //   return <div>Dashboard</div>;
+  // }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path={paths.home}
-          element={
-            <ProtectedRoutes>
-              <Home />
-            </ProtectedRoutes>
-          }
-        />
-        <Route path={paths.login} element={<Login />} />
-        <Route
-          path={paths.register}
-          element={
-            <ProtectedRoutes>
-              <Register />
-            </ProtectedRoutes>
-          }
-        />
+        <Route path={paths.home} element={<Auth />} />
+        <Route path={paths.login} element={<Auth />} />
+        <Route path={paths.register} element={<Auth />} />
+        {/* 
         <Route
           path={paths.dashboard}
           element={
@@ -46,7 +22,7 @@ export const AppRoutes = () => {
               <Dashboard />
             </ProtectedRoutes>
           }
-        />
+        /> */}
       </Routes>
     </BrowserRouter>
   );
