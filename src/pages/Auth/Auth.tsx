@@ -69,17 +69,9 @@ export const Auth: React.FC = () => {
         email: registerData.email,
         password: registerData.password,
       });
-      setError(null);
-      setIsLogin(true);
-      setRegisterData({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-      });
-    } catch (error) {
+      navigate("/dashboard");
+    } catch {
       setError("Falha ao criar conta. Tente novamente.");
-      console.error(error);
     } finally {
       setLoading(false);
     }

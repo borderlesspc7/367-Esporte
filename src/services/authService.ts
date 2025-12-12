@@ -14,6 +14,30 @@ import type {
 } from "../types/user";
 import getFirebaseErrorMessage from "../components/ui/ErrorMessage";
 
+// Helper para converter dados do Firestore para User
+const convertFirestoreUser = (data: Record<string, unknown>): User => {
+  return {
+    ...data,
+    createdAt:
+      (data.createdAt as { toDate?: () => Date })?.toDate?.() ||
+      (data.createdAt as Date) ||
+      new Date(),
+    updatedAt:
+      (data.updatedAt as { toDate?: () => Date })?.toDate?.() ||
+      (data.updatedAt as Date) ||
+      new Date(),
+  } as User;
+};
+
+// Helper para remover campos undefined (Firestore não aceita undefined)
+const removeUndefinedFields = (
+  obj: Record<string, unknown>
+): Record<string, unknown> => {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([, value]) => value !== undefined)
+  );
+};
+
 interface firebaseError {
   code?: string;
   message?: string;
@@ -44,10 +68,10 @@ export const authService = {
         throw new Error("Usuário não encontrado");
       }
 
-      const userData = userDoc.data() as User;
+      const userData = convertFirestoreUser(userDoc.data());
       const updateUserData = {
         ...userData,
-        lastLogin: new Date(),
+        updatedAt: new Date(),
       };
 
       await setDoc(doc(db, "users", firebaseUser.uid), updateUserData);
@@ -85,7 +109,20 @@ export const authService = {
         role: credentials.role || "user",
       };
 
-      await setDoc(doc(db, "users", firebaseUser.uid), newUser);
+      // Remove campos undefined antes de salvar (Firestore não aceita undefined)
+      const userDataToSave = removeUndefinedFields(
+        newUser as unknown as Record<string, unknown>
+      );
+
+      // Salva no Firestore e aguarda confirmação
+      await setDoc(doc(db, "users", firebaseUser.uid), userDataToSave);
+
+      // Verifica se foi salvo corretamente
+      const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+      if (!userDoc.exists()) {
+        throw new Error("Erro ao salvar usuário no banco de dados");
+      }
+
       return newUser;
     } catch (error) {
       const message = getFirebaseErrorMessage(error as firebaseError | string);
@@ -96,30 +133,23 @@ export const authService = {
   observeAuthState(callback: (user: User | null) => void): Unsubscribe {
     try {
       return onAuthStateChanged(auth, async (firebaseUser) => {
-        console.log(
-          "🔄 Auth state changed:",
-          firebaseUser ? firebaseUser.uid : "null"
-        );
-
         if (firebaseUser) {
+          // Pequeno delay para garantir que o documento foi criado
+          await new Promise((resolve) => setTimeout(resolve, 500));
+
           // Usuário está logado, busca dados completos no Firestore
           try {
             const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
             if (userDoc.exists()) {
-              const userData = userDoc.data() as User;
-              console.log("✅ Usuário autenticado:", userData);
+              const userData = convertFirestoreUser(userDoc.data());
               callback(userData);
             } else {
-              console.log("❌ Usuário não encontrado no Firestore");
-              callback(null); // Usuário não encontrado no Firestore
+              callback(null);
             }
-          } catch (error) {
-            console.error("❌ Erro ao buscar dados do usuário:", error);
+          } catch {
             callback(null);
           }
         } else {
-          // Usuário não está logado
-          console.log("🚪 Usuário deslogado");
           callback(null);
         }
       });

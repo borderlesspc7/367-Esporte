@@ -43,7 +43,7 @@ export const Register: React.FC = () => {
         email: formData.email,
         password: formData.password,
       });
-      navigate("/login");
+      navigate("/dashboard");
     } catch (error) {
       setError("Falha ao criar conta. Tente novamente.");
       console.error(error);

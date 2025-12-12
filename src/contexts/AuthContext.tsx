@@ -27,7 +27,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("🔧 Configurando observer de autenticação");
     const unsubscribe = authService.observeAuthState((user) => {
       setUser(user);
       setLoading(false);
@@ -57,9 +56,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       setError(null);
-      await authService.register(credentials);
-      // Não faz login automático - usuário precisa fazer login manualmente
-      setUser(null);
+      const user = await authService.register(credentials);
+      // Faz login automático após registro
+      setUser(user);
       setLoading(false);
     } catch (error) {
       const message = getFirebaseErrorMessage(error as FirebaseError | string);
