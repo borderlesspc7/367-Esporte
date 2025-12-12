@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { LogOut, User, ChevronDown, Settings, Bell } from "lucide-react";
+import logo from "../../../assets/logo_branca.png";
 import "./Header.css";
 
 interface HeaderProps {
@@ -15,7 +16,10 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
   // Fechar dropdown ao clicar fora
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsDropdownOpen(false);
       }
     };
@@ -38,11 +42,11 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
     <header className="header">
       <div className="header-left">
         <div className="header-brand">
-          <div className="brand-icon">VS</div>
-          <div className="brand-text">
-            <h1 className="header-title">Vagner Silva</h1>
-            <span className="header-subtitle">Gestão de Projetos</span>
-          </div>
+          <img
+            src={logo}
+            alt="Vagner Silva - Projetos Esportivos"
+            className="header-logo"
+          />
         </div>
       </div>
 
@@ -60,9 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
               className="user-profile-btn"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              <div className="user-avatar">
-                {getInitials(user.name)}
-              </div>
+              <div className="user-avatar">{getInitials(user.name)}</div>
               <div className="user-info">
                 <span className="user-name">{user.name}</span>
                 {user.email && <span className="user-email">{user.email}</span>}
@@ -101,7 +103,10 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
 
                 <div className="dropdown-divider"></div>
 
-                <button className="dropdown-item logout-item" onClick={onLogout}>
+                <button
+                  className="dropdown-item logout-item"
+                  onClick={onLogout}
+                >
                   <LogOut size={16} />
                   <span>Sair</span>
                 </button>

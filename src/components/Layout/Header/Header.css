@@ -23,51 +23,20 @@
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  height: 100%;
 }
 
-.brand-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #646cff 0%, #535bf2 100%);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(100, 108, 255, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+.header-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
 }
 
-.brand-icon:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(100, 108, 255, 0.35);
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.header-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1f2937;
-  margin: 0;
-  line-height: 1.2;
-  letter-spacing: -0.5px;
-}
-
-.header-subtitle {
-  font-size: 12px;
-  font-weight: 500;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.header-logo:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
 }
 
 /* Header Right */
@@ -320,18 +289,8 @@
     height: 64px;
   }
 
-  .brand-icon {
-    width: 40px;
+  .header-logo {
     height: 40px;
-    font-size: 16px;
-  }
-
-  .header-title {
-    font-size: 18px;
-  }
-
-  .header-subtitle {
-    display: none;
   }
 
   .user-info {

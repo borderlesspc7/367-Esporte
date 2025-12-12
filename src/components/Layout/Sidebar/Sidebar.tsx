@@ -2,7 +2,6 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import {
-  BarChart3,
   DollarSign,
   FolderKanban,
   LayoutDashboard,
@@ -70,9 +69,9 @@ export const Sidebar: React.FC = () => {
                     className={`sidebar-link ${isActive ? "active" : ""}`}
                     style={
                       isActive
-                        ? {
+                        ? ({
                             "--active-color": item.color,
-                          } as React.CSSProperties
+                          } as React.CSSProperties)
                         : undefined
                     }
                   >
@@ -80,11 +79,7 @@ export const Sidebar: React.FC = () => {
                       {item.icon && (
                         <span
                           className="sidebar-icon"
-                          style={
-                            isActive
-                              ? { color: item.color }
-                              : undefined
-                          }
+                          style={isActive ? { color: item.color } : undefined}
                         >
                           {item.icon}
                         </span>
@@ -101,17 +96,7 @@ export const Sidebar: React.FC = () => {
           </ul>
         </div>
 
-        <div className="sidebar-footer">
-          <div className="sidebar-stats">
-            <div className="stat-item">
-              <BarChart3 size={16} />
-              <div className="stat-content">
-                <span className="stat-value">85%</span>
-                <span className="stat-label">Progresso</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div className="sidebar-footer"></div>
       </nav>
     </aside>
   );
