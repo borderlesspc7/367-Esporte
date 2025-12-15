@@ -12,7 +12,7 @@ export type ProjectStatus =
   | "Pausado";
 
 export interface Project {
-  id?: string; // ID do documento no Firestore
+  id?: string;
   nome: string;
   linha: ProjectLine;
   periodoExecucao: {
@@ -21,7 +21,7 @@ export interface Project {
   };
   proponente: string;
   municipio: string;
-  patrocinadores: string[]; // Array de nomes de patrocinadores
+  patrocinadores: string[];
   valorAprovado: number;
   valorCaptado: number;
   statusGeral: ProjectStatus;
@@ -33,13 +33,13 @@ export interface ProjectFormData {
   nome: string;
   linha: ProjectLine;
   periodoExecucao: {
-    inicio: string; // Para inputs do tipo date
+    inicio: string;
     fim: string;
   };
   proponente: string;
   municipio: string;
-  patrocinadores: string; // String separada por vírgulas para o input
-  valorAprovado: string; // String para facilitar input
+  patrocinadores: string;
+  valorAprovado: string;
   valorCaptado: string;
   statusGeral: ProjectStatus;
 }

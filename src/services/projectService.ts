@@ -76,7 +76,6 @@ const convertProjectToFirestore = (
 };
 
 export const projectService = {
-  // Criar novo projeto
   async create(
     project: Omit<Project, "id" | "createdAt" | "updatedAt">
   ): Promise<Project> {
@@ -99,7 +98,6 @@ export const projectService = {
     }
   },
 
-  // Buscar todos os projetos
   async getAll(): Promise<Project[]> {
     try {
       const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
@@ -113,7 +111,6 @@ export const projectService = {
     }
   },
 
-  // Buscar projeto por ID
   async getById(id: string): Promise<Project | null> {
     try {
       const docSnap = await getDoc(doc(db, "projects", id));
@@ -128,7 +125,6 @@ export const projectService = {
     }
   },
 
-  // Atualizar projeto
   async update(id: string, project: Partial<Project>): Promise<void> {
     try {
       const projectData = convertProjectToFirestore(project as Project);
@@ -138,7 +134,6 @@ export const projectService = {
     }
   },
 
-  // Deletar projeto
   async delete(id: string): Promise<void> {
     try {
       await deleteDoc(doc(db, "projects", id));
