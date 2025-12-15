@@ -25,10 +25,9 @@ const items: SidebarItem[] = [
     color: "#646cff",
   },
   {
-    path: "/projetos",
+    path: "/projects",
     label: "Projetos",
     icon: <FolderKanban />,
-    badge: "12",
     color: "#10b981",
   },
   {

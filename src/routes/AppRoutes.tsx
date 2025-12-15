@@ -4,6 +4,7 @@ import { Layout } from "../components/Layout/Layout";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { Auth } from "../pages/Auth/Auth";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
+import { Projects } from "../pages/Projects/Projects";
 
 export const AppRoutes = () => {
   return (
@@ -18,6 +19,16 @@ export const AppRoutes = () => {
             <ProtectedRoutes>
               <Layout>
                 <Dashboard />
+              </Layout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={paths.projects}
+          element={
+            <ProtectedRoutes>
+              <Layout>
+                <Projects />
               </Layout>
             </ProtectedRoutes>
           }
