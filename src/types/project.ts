@@ -43,3 +43,16 @@ export interface ProjectFormData {
   valorCaptado: string;
   statusGeral: ProjectStatus;
 }
+
+export interface ProjectFilters {
+  search: string;
+  linha: ProjectLine | "Todos";
+  statusGeral: ProjectStatus | "Todos";
+  municipio: string;
+  periodoInicio: string;
+  periodoFim: string;
+  valorAprovadoMin: string;
+  valorAprovadoMax: string;
+  valorCaptadoMin: string;
+  valorCaptadoMax: string;
+}

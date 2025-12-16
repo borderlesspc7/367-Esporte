@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { projectService } from "../../services/projectService";
 import type { Project } from "../../types/project";
 import { ProjectForm } from "../Projects/ProjectForm/ProjectForm";
+import { ProjectFilter } from "../Projects/Filter/ProjectFilter";
+import type { ProjectFilters } from "../../types/project";
 import {
   Plus,
   Edit,
@@ -16,6 +18,18 @@ import {
 import "./Projects.css";
 
 export const Projects: React.FC = () => {
+  const [filters, setFilters] = useState<ProjectFilters>({
+    search: "",
+    linha: "Todos",
+    statusGeral: "Todos",
+    municipio: "",
+    periodoInicio: "",
+    periodoFim: "",
+    valorAprovadoMin: "",
+    valorAprovadoMax: "",
+    valorCaptadoMin: "",
+    valorCaptadoMax: "",
+  });
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -114,6 +128,91 @@ export const Projects: React.FC = () => {
     }).format(value);
   };
 
+  const filteredProjects = projects.filter((project) => {
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      const matchesSearch =
+        project.nome.toLowerCase().includes(searchLower) ||
+        project.proponente.toLowerCase().includes(searchLower) ||
+        project.municipio.toLowerCase().includes(searchLower);
+
+      if (!matchesSearch) return false;
+    }
+
+    if (filters.linha !== "Todos" && project.linha !== filters.linha) {
+      return false;
+    }
+
+    if (
+      filters.statusGeral !== "Todos" &&
+      project.statusGeral !== filters.statusGeral
+    ) {
+      return false;
+    }
+
+    if (
+      filters.municipio &&
+      !project.municipio.toLowerCase().includes(filters.municipio.toLowerCase())
+    ) {
+      return false;
+    }
+
+    if (filters.periodoInicio) {
+      const inicioDate =
+        project.periodoExecucao.inicio instanceof Date
+          ? project.periodoExecucao.inicio
+          : new Date(project.periodoExecucao.inicio);
+      const filterInicio = new Date(filters.periodoInicio);
+      if (inicioDate < filterInicio) return false;
+    }
+
+    if (filters.periodoFim) {
+      const fimDate =
+        project.periodoExecucao.fim instanceof Date
+          ? project.periodoExecucao.fim
+          : new Date(project.periodoExecucao.fim);
+      const filterFim = new Date(filters.periodoFim);
+      if (fimDate > filterFim) return false;
+    }
+
+    if (filters.valorAprovadoMin) {
+      const min = parseFloat(filters.valorAprovadoMin);
+      if (!isNaN(min) && project.valorAprovado < min) return false;
+    }
+
+    if (filters.valorAprovadoMax) {
+      const max = parseFloat(filters.valorAprovadoMax);
+      if (!isNaN(max) && project.valorAprovado > max) return false;
+    }
+
+    if (filters.valorCaptadoMin) {
+      const min = parseFloat(filters.valorCaptadoMin);
+      if (!isNaN(min) && project.valorCaptado < min) return false;
+    }
+
+    if (filters.valorCaptadoMax) {
+      const max = parseFloat(filters.valorCaptadoMax);
+      if (!isNaN(max) && project.valorCaptado > max) return false;
+    }
+
+    return true;
+  });
+
+  const handleResetFilters = () => {
+    setFilters({
+      search: "",
+      linha: "Todos",
+      statusGeral: "Todos",
+      municipio: "",
+      periodoInicio: "",
+      periodoFim: "",
+      valorAprovadoMin: "",
+      valorAprovadoMax: "",
+      valorCaptadoMin: "",
+      valorCaptadoMax: "",
+    });
+  };
+
   if (loading) {
     return (
       <div className="projects-container">
@@ -158,6 +257,14 @@ export const Projects: React.FC = () => {
         </div>
       )}
 
+      {!showForm && (
+        <ProjectFilter
+          filters={filters}
+          onFiltersChange={setFilters}
+          onReset={handleResetFilters}
+        />
+      )}
+
       {showForm ? (
         <div className="form-wrapper">
           <ProjectForm
@@ -169,7 +276,7 @@ export const Projects: React.FC = () => {
         </div>
       ) : (
         <>
-          {projects.length === 0 ? (
+          {filteredProjects.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">
                 <Briefcase size={64} />
@@ -189,7 +296,7 @@ export const Projects: React.FC = () => {
             </div>
           ) : (
             <div className="projects-grid">
-              {projects.map((project) => (
+              {filteredProjects.map((project) => (
                 <div className="project-card" key={project.id}>
                   <div className="project-card-header">
                     <div className="project-header-top">

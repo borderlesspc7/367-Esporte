@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import type {
   Project,
   ProjectFormData,
@@ -36,51 +36,55 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
   onCancel,
   loading = false,
 }) => {
-  const [formData, setFormData] = useState<ProjectFormData>({
-    nome: "",
-    linha: "Educacional",
-    periodoExecucao: {
-      inicio: "",
-      fim: "",
-    },
-    proponente: "",
-    municipio: "",
-    patrocinadores: "",
-    valorAprovado: "0",
-    valorCaptado: "0",
-    statusGeral: "Em planejamento",
-  });
+  const initialFormData = useMemo<ProjectFormData>(() => {
+    if (!project) {
+      return {
+        nome: "",
+        linha: "Educacional",
+        periodoExecucao: {
+          inicio: "",
+          fim: "",
+        },
+        proponente: "",
+        municipio: "",
+        patrocinadores: "",
+        valorAprovado: "0",
+        valorCaptado: "0",
+        statusGeral: "Em planejamento",
+      };
+    }
 
+    const inicioDate =
+      project.periodoExecucao.inicio instanceof Date
+        ? project.periodoExecucao.inicio
+        : new Date(project.periodoExecucao.inicio);
+    const fimDate =
+      project.periodoExecucao.fim instanceof Date
+        ? project.periodoExecucao.fim
+        : new Date(project.periodoExecucao.fim);
+
+    return {
+      nome: project.nome,
+      linha: project.linha,
+      periodoExecucao: {
+        inicio: inicioDate.toISOString().split("T")[0],
+        fim: fimDate.toISOString().split("T")[0],
+      },
+      proponente: project.proponente,
+      municipio: project.municipio,
+      patrocinadores: project.patrocinadores.join(", "),
+      valorAprovado: project.valorAprovado.toString(),
+      valorCaptado: project.valorCaptado.toString(),
+      statusGeral: project.statusGeral,
+    };
+  }, [project?.id]);
+
+  const [formData, setFormData] = useState<ProjectFormData>(initialFormData);
   const [error, setError] = useState<string | null>(null);
 
-  // Preencher formulário se estiver editando
   useEffect(() => {
-    if (project) {
-      const inicioDate =
-        project.periodoExecucao.inicio instanceof Date
-          ? project.periodoExecucao.inicio
-          : new Date(project.periodoExecucao.inicio);
-      const fimDate =
-        project.periodoExecucao.fim instanceof Date
-          ? project.periodoExecucao.fim
-          : new Date(project.periodoExecucao.fim);
-
-      setFormData({
-        nome: project.nome,
-        linha: project.linha,
-        periodoExecucao: {
-          inicio: inicioDate.toISOString().split("T")[0],
-          fim: fimDate.toISOString().split("T")[0],
-        },
-        proponente: project.proponente,
-        municipio: project.municipio,
-        patrocinadores: project.patrocinadores.join(", "),
-        valorAprovado: project.valorAprovado.toString(),
-        valorCaptado: project.valorCaptado.toString(),
-        statusGeral: project.statusGeral,
-      });
-    }
-  }, [project]);
+    setFormData(initialFormData);
+  }, [initialFormData]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -189,6 +193,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               required
               disabled={loading}
               placeholder="Digite o nome do projeto"
+              className="project-input"
             />
           </div>
 
@@ -203,6 +208,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               onChange={handleInputChange}
               required
               disabled={loading}
+              className="project-select"
             >
               {PROJECT_LINES.map((line) => (
                 <option key={line} value={line}>
@@ -226,6 +232,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               onChange={handleInputChange}
               required
               disabled={loading}
+              className="project-input"
             />
           </div>
 
@@ -241,6 +248,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               onChange={handleInputChange}
               required
               disabled={loading}
+              className="project-input"
             />
           </div>
         </div>
@@ -259,6 +267,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               required
               disabled={loading}
               placeholder="Digite o nome do proponente"
+              className="project-input"
             />
           </div>
 
@@ -275,6 +284,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               required
               disabled={loading}
               placeholder="Digite o município"
+              className="project-input"
             />
           </div>
         </div>
@@ -291,6 +301,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
             onChange={handleInputChange}
             disabled={loading}
             placeholder="Separe múltiplos patrocinadores por vírgula"
+            className="project-input"
           />
           <small className="form-hint">
             Exemplo: Empresa A, Empresa B, Empresa C
@@ -313,6 +324,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               step="0.01"
               disabled={loading}
               placeholder="0.00"
+              className="project-input"
             />
           </div>
 
@@ -331,6 +343,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               step="0.01"
               disabled={loading}
               placeholder="0.00"
+              className="project-input"
             />
           </div>
         </div>
@@ -346,6 +359,7 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
             onChange={handleInputChange}
             required
             disabled={loading}
+            className="project-select"
           >
             {PROJECT_STATUSES.map((status) => (
               <option key={status} value={status}>
