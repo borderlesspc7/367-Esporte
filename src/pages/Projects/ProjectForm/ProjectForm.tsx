@@ -30,6 +30,34 @@ const PROJECT_STATUSES: ProjectStatus[] = [
   "Pausado",
 ];
 
+const formatCurrency = (value: string | number): string => {
+  const numValue = typeof value === "string" ? parseFloat(value) || 0 : value;
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(numValue);
+};
+
+const unformatCurrency = (value: string): string => {
+  if (!value || value.trim() === "") return "0";
+
+  let cleaned = value.replace(/[^\d,.]/g, "");
+
+  if (!cleaned.match(/\d/)) return "0";
+
+  if (cleaned.includes(",")) {
+    cleaned = cleaned.replace(/\./g, "").replace(",", ".");
+  } else if (cleaned.includes(".")) {
+    const parts = cleaned.split(".");
+    if (parts.length > 2) {
+      cleaned = parts.slice(0, -1).join("") + "." + parts[parts.length - 1];
+    }
+  }
+
+  const numValue = parseFloat(cleaned);
+  return isNaN(numValue) || numValue < 0 ? "0" : numValue.toString();
+};
+
 export const ProjectForm: React.FC<ProjectFormProps> = ({
   project,
   onSubmit,
@@ -48,8 +76,8 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
         proponente: "",
         municipio: "",
         patrocinadores: "",
-        valorAprovado: "0",
-        valorCaptado: "0",
+        valorAprovado: formatCurrency("0"),
+        valorCaptado: formatCurrency("0"),
         statusGeral: "Em planejamento",
       };
     }
@@ -73,8 +101,8 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
       proponente: project.proponente,
       municipio: project.municipio,
       patrocinadores: project.patrocinadores.join(", "),
-      valorAprovado: project.valorAprovado.toString(),
-      valorCaptado: project.valorCaptado.toString(),
+      valorAprovado: formatCurrency(project.valorAprovado),
+      valorCaptado: formatCurrency(project.valorCaptado),
       statusGeral: project.statusGeral,
     };
   }, [project?.id]);
@@ -109,8 +137,8 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
       return;
     }
 
-    const valorAprovado = parseFloat(formData.valorAprovado);
-    const valorCaptado = parseFloat(formData.valorCaptado);
+    const valorAprovado = parseFloat(unformatCurrency(formData.valorAprovado));
+    const valorCaptado = parseFloat(unformatCurrency(formData.valorCaptado));
 
     if (isNaN(valorAprovado) || valorAprovado < 0) {
       setError("O valor aprovado deve ser um número válido");
@@ -167,6 +195,11 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
           [name.split(".")[1]]: value,
         },
       });
+    } else if (name === "valorAprovado" || name === "valorCaptado") {
+      // Aplica máscara monetária
+      const unformatted = unformatCurrency(value);
+      const formatted = formatCurrency(unformatted);
+      setFormData({ ...formData, [name]: formatted });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -314,16 +347,20 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               Valor Aprovado (R$) *
             </label>
             <input
-              type="number"
+              type="text"
               id="valorAprovado"
               name="valorAprovado"
               value={formData.valorAprovado}
               onChange={handleInputChange}
+              onBlur={(e) => {
+                // Garante formatação ao sair do campo
+                const unformatted = unformatCurrency(e.target.value);
+                const formatted = formatCurrency(unformatted);
+                setFormData({ ...formData, valorAprovado: formatted });
+              }}
               required
-              min="0"
-              step="0.01"
               disabled={loading}
-              placeholder="0.00"
+              placeholder="R$ 0,00"
               className="project-input"
             />
           </div>
@@ -333,16 +370,20 @@ export const ProjectForm: React.FC<ProjectFormProps> = ({
               Valor Captado (R$) *
             </label>
             <input
-              type="number"
+              type="text"
               id="valorCaptado"
               name="valorCaptado"
               value={formData.valorCaptado}
               onChange={handleInputChange}
+              onBlur={(e) => {
+                // Garante formatação ao sair do campo
+                const unformatted = unformatCurrency(e.target.value);
+                const formatted = formatCurrency(unformatted);
+                setFormData({ ...formData, valorCaptado: formatted });
+              }}
               required
-              min="0"
-              step="0.01"
               disabled={loading}
-              placeholder="0.00"
+              placeholder="R$ 0,00"
               className="project-input"
             />
           </div>
