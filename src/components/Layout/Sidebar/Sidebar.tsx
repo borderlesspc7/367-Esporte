@@ -9,6 +9,7 @@ import {
   TrendingUp,
   TrafficCone,
 } from "lucide-react";
+import { paths } from "../../../routes/paths";
 
 interface SidebarItem {
   label: string;
@@ -20,19 +21,19 @@ interface SidebarItem {
 
 const items: SidebarItem[] = [
   {
-    path: "/dashboard",
+    path: paths.dashboard,
     label: "Dashboard",
     icon: <LayoutDashboard />,
     color: "#646cff",
   },
   {
-    path: "/projects",
+    path: paths.projects,
     label: "Projetos",
     icon: <FolderKanban />,
     color: "#10b981",
   },
   {
-    path: "/meta-fisica",
+    path: paths.goals,
     label: "Meta Física",
     icon: <TrendingUp />,
     color: "#f59e0b",

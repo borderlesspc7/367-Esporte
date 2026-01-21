@@ -9,7 +9,6 @@ import {
   getDocs,
   query,
   where,
-  orderBy,
   Timestamp,
 } from "firebase/firestore";
 import type { Goal } from "../types/goal";
@@ -80,16 +79,28 @@ export const goalService = {
   // Buscar todas as metas de um projeto
   async getByProjectId(projectId: string): Promise<Goal[]> {
     try {
+      // Removido orderBy para evitar necessidade de índice composto
+      // A ordenação será feita no cliente
       const q = query(
         collection(db, "goals"),
-        where("projetoId", "==", projectId),
-        orderBy("dataLimite", "asc")
+        where("projetoId", "==", projectId)
       );
       const querySnapshot = await getDocs(q);
 
-      return querySnapshot.docs.map((docSnap) =>
+      const goals = querySnapshot.docs.map((docSnap) =>
         convertFirestoreGoal(docSnap.id, docSnap.data())
       );
+
+      // Ordenar por data limite (mais antiga primeiro)
+      return goals.sort((a, b) => {
+        const dateA = a.dataLimite instanceof Date 
+          ? a.dataLimite 
+          : new Date(a.dataLimite);
+        const dateB = b.dataLimite instanceof Date 
+          ? b.dataLimite 
+          : new Date(b.dataLimite);
+        return dateA.getTime() - dateB.getTime();
+      });
     } catch (error) {
       throw new Error(`Erro ao buscar metas: ${error}`);
     }
