@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   FileText,
   TrendingUp,
+  TrafficCone,
 } from "lucide-react";
 
 interface SidebarItem {
@@ -35,6 +36,12 @@ const items: SidebarItem[] = [
     label: "Meta Física",
     icon: <TrendingUp />,
     color: "#f59e0b",
+  },
+  {
+    path: "/sinaleiras",
+    label: "Sinaleiras",
+    icon: <TrafficCone />,
+    color: "#8b5cf6",
   },
   {
     path: "/financeiro",

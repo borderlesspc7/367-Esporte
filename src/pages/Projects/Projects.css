@@ -4,7 +4,7 @@
   max-width: 1400px;
   margin: 0 auto;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  background: transparent;
 }
 
 .projects-header {
@@ -13,9 +13,9 @@
   align-items: center;
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 24px rgba(67, 56, 202, 0.5);
   color: white;
 }
 
@@ -52,20 +52,20 @@
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   background: white;
-  color: #667eea;
+  color: #4338ca;
   border: none;
   border-radius: 10px;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn-new-project:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-  background: #f8f9ff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  background: #e0e7ff;
 }
 
 .btn-new-project:active {
@@ -89,15 +89,15 @@
 .loading-spinner {
   width: 48px;
   height: 48px;
-  border: 3px solid rgba(102, 126, 234, 0.1);
-  border-top-color: #667eea;
+  border: 3px solid rgba(67, 56, 202, 0.2);
+  border-top-color: #6366f1;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
 .loading-state p {
   font-size: 1rem;
-  color: #667eea;
+  color: #cbd5e1;
   font-weight: 500;
 }
 
@@ -108,17 +108,18 @@
 }
 
 .error-banner {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-  color: white;
+  background: linear-gradient(135deg, #450a0a 0%, #7f1d1d 100%);
+  color: #fca5a5;
   padding: 1rem 1.25rem;
   border-radius: 10px;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  box-shadow: 0 3px 12px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 3px 12px rgba(220, 38, 38, 0.4);
   font-weight: 500;
   font-size: 0.95rem;
+  border-left: 4px solid #dc2626;
 }
 
 .error-icon {
@@ -144,19 +145,20 @@
 .empty-state {
   text-align: center;
   padding: 3rem 1.5rem;
-  background: white;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   border-radius: 16px;
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid #475569;
 }
 
 .empty-icon {
   display: inline-flex;
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
   border-radius: 50%;
   margin-bottom: 1.5rem;
   color: white;
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 6px 20px rgba(67, 56, 202, 0.5);
 }
 
 .empty-icon svg {
@@ -166,14 +168,14 @@
 
 .empty-state h3 {
   font-size: 1.5rem;
-  color: #2d3748;
+  color: #f1f5f9;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .empty-state p {
   font-size: 1rem;
-  color: #718096;
+  color: #94a3b8;
   margin-bottom: 1.5rem;
 }
 
@@ -185,24 +187,24 @@
 }
 
 .project-card {
-  background: white;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   border-radius: 16px;
   overflow: hidden;
   transition: all 0.3s ease;
-  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid #475569;
 }
 
 .project-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 32px rgba(102, 126, 234, 0.2);
-  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 32px rgba(67, 56, 202, 0.4);
+  border-color: #6366f1;
 }
 
 .project-card-header {
   padding: 1.25rem;
-  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
-  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+  background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+  border-bottom: 2px solid #475569;
 }
 
 .project-header-top {
@@ -215,7 +217,7 @@
 .project-card-title {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #f1f5f9;
   margin: 0 0 0.75rem 0;
   line-height: 1.3;
 }
@@ -223,12 +225,12 @@
 .project-line-badge {
   display: inline-block;
   padding: 0.4rem 0.85rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
   color: white;
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 6px rgba(67, 56, 202, 0.5);
 }
 
 .project-card-actions {
@@ -237,8 +239,8 @@
 }
 
 .btn-icon {
-  background: white;
-  border: 2px solid #e2e8f0;
+  background: #1e293b;
+  border: 2px solid #475569;
   border-radius: 8px;
   padding: 0.4rem;
   cursor: pointer;
@@ -246,24 +248,24 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  color: #718096;
+  color: #94a3b8;
 }
 
 .btn-icon:hover:not(:disabled) {
-  background: #f7fafc;
+  background: #475569;
   transform: scale(1.1);
 }
 
 .btn-icon-edit:hover:not(:disabled) {
-  border-color: #667eea;
-  color: #667eea;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  border-color: #6366f1;
+  color: #818cf8;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
 }
 
 .btn-icon-danger:hover:not(:disabled) {
-  border-color: #ff6b6b;
-  color: #ff6b6b;
-  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+  border-color: #ef4444;
+  color: #fca5a5;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
 }
 
 .btn-icon:disabled {
@@ -274,8 +276,8 @@
 .spinner-small {
   width: 14px;
   height: 14px;
-  border: 2px solid #e2e8f0;
-  border-top-color: #667eea;
+  border: 2px solid #475569;
+  border-top-color: #6366f1;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -290,7 +292,7 @@
   gap: 0.75rem;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f0f2ff;
+  border-bottom: 1px solid #475569;
 }
 
 .project-info-item:last-of-type {
@@ -305,11 +307,11 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
   border-radius: 8px;
   color: white;
   flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 6px rgba(67, 56, 202, 0.4);
 }
 
 .info-icon svg {
@@ -327,14 +329,14 @@
 .info-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #718096;
+  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .info-value {
   font-size: 0.9rem;
-  color: #2d3748;
+  color: #cbd5e1;
   font-weight: 500;
 }
 
@@ -344,8 +346,9 @@
   gap: 0.75rem;
   margin-bottom: 1.25rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
   border-radius: 10px;
+  border: 1px solid #475569;
 }
 
 .financial-item {
@@ -388,7 +391,7 @@
 .financial-label {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #718096;
+  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -396,14 +399,14 @@
 .financial-value {
   font-size: 1rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #e0e7ff;
 }
 
 .project-progress {
   padding: 1rem;
-  background: white;
+  background: #0f172a;
   border-radius: 10px;
-  border: 2px solid #f0f2ff;
+  border: 2px solid #475569;
 }
 
 .progress-info {
@@ -416,7 +419,7 @@
 .progress-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #718096;
+  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -424,24 +427,24 @@
 .progress-percentage {
   font-size: 1rem;
   font-weight: 700;
-  color: #667eea;
+  color: #818cf8;
 }
 
 .progress-bar {
   width: 100%;
   height: 10px;
-  background: #e2e8f0;
+  background: #1e293b;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #4338ca 0%, #6366f1 100%);
   border-radius: 5px;
   transition: width 0.5s ease;
-  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.5);
 }
 
 .project-status {

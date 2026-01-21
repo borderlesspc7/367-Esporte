@@ -1,9 +1,10 @@
 .project-filter-container {
-  background: white;
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid #475569;
 }
 
 .filter-header {
@@ -24,22 +25,29 @@
 .search-icon {
   position: absolute;
   left: 1rem;
-  color: #666;
+  color: #64748b;
   pointer-events: none;
 }
 
 .filter-search-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 3rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #475569;
   border-radius: 8px;
   font-size: 0.95rem;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+.filter-search-input::placeholder {
+  color: #64748b;
 }
 
 .filter-search-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .clear-search-btn {
@@ -47,7 +55,7 @@
   right: 0.75rem;
   background: transparent;
   border: none;
-  color: #999;
+  color: #64748b;
   cursor: pointer;
   padding: 0.25rem;
   display: flex;
@@ -58,8 +66,8 @@
 }
 
 .clear-search-btn:hover {
-  background: #f5f5f5;
-  color: #666;
+  background: #475569;
+  color: #f1f5f9;
 }
 
 .filter-header-actions {
@@ -74,12 +82,12 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #475569;
   border-radius: 8px;
-  background: white;
-  color: #333;
+  background: #0f172a;
+  color: #cbd5e1;
   font-size: 0.9rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
@@ -87,42 +95,45 @@
 
 .btn-toggle-filters:hover,
 .btn-reset-filters:hover {
-  border-color: #667eea;
-  color: #667eea;
-  background: #f8f9ff;
+  border-color: #6366f1;
+  color: #818cf8;
+  background: #1e293b;
+  transform: translateY(-1px);
 }
 
 .btn-toggle-filters.active {
-  border-color: #667eea;
-  background: #f8f9ff;
-  color: #667eea;
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #312e81 0%, #3730a3 100%);
+  color: #c7d2fe;
 }
 
 .filter-badge {
-  background: #667eea;
+  background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
   color: white;
   border-radius: 12px;
   padding: 0.15rem 0.5rem;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   min-width: 20px;
   text-align: center;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4);
 }
 
 .btn-reset-filters {
-  border-color: #dc3545;
-  color: #dc3545;
+  border-color: #dc2626;
+  color: #fca5a5;
 }
 
 .btn-reset-filters:hover {
-  background: #fff5f5;
-  border-color: #dc3545;
+  background: #450a0a;
+  border-color: #dc2626;
+  color: #fca5a5;
 }
 
 .filter-content {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #475569;
   animation: slideDown 0.3s ease;
 }
 
@@ -152,24 +163,31 @@
 .filter-label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #333;
+  color: #cbd5e1;
   margin-bottom: 0.5rem;
 }
 
 .filter-select,
 .filter-input {
   padding: 0.75rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #475569;
   border-radius: 8px;
   font-size: 0.9rem;
-  transition: border-color 0.2s;
-  background: white;
+  transition: all 0.2s;
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+.filter-select::placeholder,
+.filter-input::placeholder {
+  color: #64748b;
 }
 
 .filter-select:focus,
 .filter-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .filter-input[type="number"] {
@@ -180,6 +198,20 @@
 .filter-input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.filter-input[type="date"] {
+  color-scheme: dark;
+}
+
+.filter-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.filter-input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 @media (max-width: 768px) {
