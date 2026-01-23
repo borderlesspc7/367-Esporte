@@ -45,7 +45,7 @@ const items: SidebarItem[] = [
     color: "#8b5cf6",
   },
   {
-    path: "/financeiro",
+    path: paths.financial,
     label: "Financeiro",
     icon: <DollarSign />,
     color: "#8b5cf6",

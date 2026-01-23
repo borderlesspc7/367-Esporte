@@ -6,6 +6,7 @@ import { Auth } from "../pages/Auth/Auth";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { Projects } from "../pages/Projects/Projects";
 import { Goals } from "../pages/Goals/Goals";
+import { Financial } from "../pages/Financeiro/Financial";
 
 export const AppRoutes = () => {
   return (
@@ -40,6 +41,16 @@ export const AppRoutes = () => {
             <ProtectedRoutes>
               <Layout>
                 <Goals />
+              </Layout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={paths.financial}
+          element={
+            <ProtectedRoutes> 
+              <Layout>
+                <Financial />
               </Layout>
             </ProtectedRoutes>
           }
