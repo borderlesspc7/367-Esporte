@@ -26,3 +26,34 @@ export interface GoalFormData {
   status: GoalStatus;
   observacoes: string;
 }
+
+export type SinaleiraStatus = "verde" | "amarelo" | "vermelho" | "azul";
+
+export const calcularSinaleira = (dataLimite: Date | string, status: GoalStatus): SinaleiraStatus => {
+  if(status === "Concluída") {
+    return "azul";
+  }
+
+  if(status === "Cancelada") {
+    return "vermelho";
+  }
+
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  const limite = dataLimite instanceof Date ? new Date(dataLimite) : new Date(dataLimite);
+  limite.setHours(0, 0, 0, 0);
+
+  const diffTime = limite.getTime() - hoje.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if(diffDays < 0){
+    return "vermelho";
+  }
+
+  if(diffDays <= 7){
+    return "amarelo";
+  }
+
+  return "verde";
+}
