@@ -15,6 +15,7 @@ import {
   XCircle,
   AlertCircle,
 } from "lucide-react";
+import { calcularSinaleira,type GoalStatus } from "../../types/goal";
 import "./Goals.css";
 
 export const Goals: React.FC = () => {
@@ -123,6 +124,35 @@ export const Goals: React.FC = () => {
     }
   };
 
+  const getSinaleiraInfo = (status: string, dataLimite: Date | string) => {
+    const sinaleira = calcularSinaleira(dataLimite, status as GoalStatus);
+
+  const sinaleiras = {
+    verde: {
+      label: "Dentro do prazo",
+      icon: <CheckCircle2 size={20} />,
+      color: "#10b981"
+    },
+    amarelo: {
+      label: "Atenção - 7 dias",
+      icon: <AlertCircle size={20} />,
+      color: "#f59e0b"
+    },
+    vermelho: {
+      label: "Atrasada",
+      icon: <AlertCircle size={20} />,
+      color: "#ef4444"
+    },
+    azul: {
+      label: "Concluída",
+      icon: <CheckCircle2 size={20} />,
+      color: "#3b82f6"
+    }
+  };
+
+  return sinaleiras[sinaleira]
+  };
+
   if (!projectId) {
     return (
       <div className="goals-container">
@@ -208,14 +238,15 @@ export const Goals: React.FC = () => {
                   <div key={goal.id} className="goal-card">
                     <div className="goal-card-header">
                       <div className="goal-header-top">
-                        <span
-                          className={`goal-status goal-status-${goal.status
-                            .toLowerCase()
-                            .replace(/\s+/g, "-")}`}
-                        >
-                          {getStatusIcon(goal.status)}
-                          {goal.status}
-                        </span>
+                        <div className="goal=sinaleira-wrapper">
+                          <span className={`goal-sinaleira goal-sinaleira-${calcularSinaleira(goal.dataLimite, goal.status)}`} title={getSinaleiraInfo(goal.status, goal.dataLimite).label}>
+                            {getSinaleiraInfo(goal.status, goal.dataLimite).icon}
+                          </span>
+                          <span className={`goal-status goal-status-${goal.status.toLowerCase().replace(/\s+/g, "-")}`}>
+                            {getStatusIcon(goal.status)}
+                            {goal.status}
+                          </span>
+                        </div>
                         <div className="goal-card-actions">
                         <button
                           onClick={() => handleEdit(goal)}
