@@ -34,6 +34,12 @@ export default function getFirebaseErrorMessage(
     case "auth/invalid-api-key":
       return "Erro de configuração. Entre em contato com o suporte.";
 
+    case "auth/email-already-in-use":
+      return "Este email já está em uso.";
+
+    case "auth/weak-password":
+      return "A senha é muito fraca. Use uma senha mais forte.";
+
     default:
       return "Erro inesperado. Tente novamente.";
   }

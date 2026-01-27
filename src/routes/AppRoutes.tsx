@@ -3,6 +3,7 @@ import { paths } from "./paths";
 import { Layout } from "../components/Layout/Layout";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import { Auth } from "../pages/Auth/Auth";
+import { ForgotPassword } from "../pages/ForgotPassword/ForgotPassword";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { Projects } from "../pages/Projects/Projects";
 import { Goals } from "../pages/Goals/Goals";
@@ -15,6 +16,7 @@ export const AppRoutes = () => {
         <Route path={paths.home} element={<Auth />} />
         <Route path={paths.login} element={<Auth />} />
         <Route path={paths.register} element={<Auth />} />
+        <Route path={paths.forgotPassword} element={<ForgotPassword />} />
         <Route
           path={paths.dashboard}
           element={

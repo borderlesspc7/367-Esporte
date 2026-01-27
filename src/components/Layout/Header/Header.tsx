@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../../hooks/useAuth";
 import { LogOut, User, ChevronDown, Settings, Bell } from "lucide-react";
-import logo from "../../../assets/logo_branca.png";
+import logo from "../../../assets/logo_branca__1_-removebg-preview.png";
 import "./Header.css";
 
 interface HeaderProps {

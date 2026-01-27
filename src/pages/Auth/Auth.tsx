@@ -168,7 +168,7 @@ export const Auth: React.FC = () => {
               <p>
                 <button
                   type="button"
-                  onClick={toggleMode}
+                  onClick={() => navigate("/forgot-password")}
                   className="link-button"
                 >
                   Esqueceu sua senha?

@@ -11,7 +11,7 @@
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
-  height: 72px;
+  height: 80px;
 }
 
 /* Header Left - Brand */
@@ -27,7 +27,7 @@
 }
 
 .header-logo {
-  height: 50px;
+  height: 70px;
   width: auto;
   object-fit: contain;
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -290,7 +290,7 @@
   }
 
   .header-logo {
-    height: 40px;
+    height: 55px;
   }
 
   .user-info {

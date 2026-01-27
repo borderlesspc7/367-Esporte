@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import type { RegisterCredentials } from "../../types/user";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import logo from "../../assets/logo_branca.png";
+import logo from "../../assets/logo_branca__1_-removebg-preview.png";
 import "./Register.css";
 
 export const Register: React.FC = () => {

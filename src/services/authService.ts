@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
   type Unsubscribe,
   onAuthStateChanged,
 } from "firebase/auth";
@@ -124,6 +125,19 @@ export const authService = {
       }
 
       return newUser;
+    } catch (error) {
+      const message = getFirebaseErrorMessage(error as firebaseError | string);
+      throw new Error(message);
+    }
+  },
+
+  async resetPassword(email: string): Promise<void> {
+    try {
+      if (!email || !email.trim()) {
+        throw new Error("Email é obrigatório");
+      }
+
+      await sendPasswordResetEmail(auth, email);
     } catch (error) {
       const message = getFirebaseErrorMessage(error as firebaseError | string);
       throw new Error(message);
