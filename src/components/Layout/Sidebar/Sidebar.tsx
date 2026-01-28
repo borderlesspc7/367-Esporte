@@ -44,7 +44,7 @@ const items: SidebarItem[] = [
     color: "#8b5cf6",
   },
   {
-    path: "/relatorios",
+    path: paths.reports,
     label: "Relatórios",
     icon: <FileText />,
     color: "#06b6d4",

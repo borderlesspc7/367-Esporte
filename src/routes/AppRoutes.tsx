@@ -8,6 +8,7 @@ import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { Projects } from "../pages/Projects/Projects";
 import { Goals } from "../pages/Goals/Goals";
 import { Financial } from "../pages/Financeiro/Financial";
+import { Reports } from "../pages/Reports/Reports";
 
 export const AppRoutes = () => {
   return (
@@ -53,6 +54,16 @@ export const AppRoutes = () => {
             <ProtectedRoutes> 
               <Layout>
                 <Financial />
+              </Layout>
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path={paths.reports}
+          element={
+            <ProtectedRoutes>
+              <Layout>
+                <Reports />
               </Layout>
             </ProtectedRoutes>
           }

@@ -7,4 +7,5 @@ export const paths = {
   projects: "/projects",
   goals: "/projects/:projectId/goals",
   financial: "/projects/:projectId/financial",
+  reports: "/relatorios",
 };
