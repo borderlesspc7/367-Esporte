@@ -141,7 +141,7 @@ export const Reports: React.FC = () => {
     <div className="reports-container">
       <div className="reports-header">
         <h1>
-          <FileText size={32} style={{ display: "inline", marginRight: "0.5rem" }} />
+          <FileText size={28} />
           Relatórios Automáticos
         </h1>
         <p>Gere relatórios detalhados em PDF ou visualize diretamente na tela</p>
