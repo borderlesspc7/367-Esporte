@@ -8,4 +8,6 @@ export const paths = {
   goals: "/projects/:projectId/goals",
   financial: "/projects/:projectId/financial",
   reports: "/relatorios",
+  profile: "/perfil",
+  settings: "/configuracoes",
 };

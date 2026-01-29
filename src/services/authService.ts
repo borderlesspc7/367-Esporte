@@ -1,13 +1,17 @@
-import { auth, db } from "../lib/firebaseconfig";
+import { auth, db, storage } from "../lib/firebaseconfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
   type Unsubscribe,
   onAuthStateChanged,
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import type {
   LoginCredentials,
   RegisterCredentials,
@@ -138,6 +142,111 @@ export const authService = {
       }
 
       await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      const message = getFirebaseErrorMessage(error as firebaseError | string);
+      throw new Error(message);
+    }
+  },
+
+  async uploadProfilePhoto(uid: string, file: File): Promise<string> {
+    try {
+      if (!file) {
+        throw new Error("Arquivo não fornecido");
+      }
+
+      // Validação do tipo de arquivo
+      if (!file.type.startsWith("image/")) {
+        throw new Error("O arquivo deve ser uma imagem");
+      }
+
+      // Validação do tamanho (máximo 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error("A imagem deve ter no máximo 5MB");
+      }
+
+      // Referência do arquivo no Storage
+      const storageRef = ref(storage, `profile-photos/${uid}/${Date.now()}_${file.name}`);
+
+      // Upload do arquivo
+      await uploadBytes(storageRef, file);
+
+      // Obter URL de download
+      const downloadURL = await getDownloadURL(storageRef);
+
+      return downloadURL;
+    } catch (error) {
+      const message = getFirebaseErrorMessage(error as firebaseError | string);
+      throw new Error(message);
+    }
+  },
+
+  async deleteProfilePhoto(photoURL: string): Promise<void> {
+    try {
+      if (!photoURL) return;
+
+      // Extrair o caminho do Storage da URL
+      const urlParts = photoURL.split("/o/");
+      if (urlParts.length < 2) return;
+
+      const path = decodeURIComponent(urlParts[1].split("?")[0]);
+      const storageRef = ref(storage, path);
+
+      await deleteObject(storageRef);
+    } catch (error) {
+      // Não lançar erro se a imagem não existir
+      console.warn("Erro ao deletar foto antiga:", error);
+    }
+  },
+
+  async updateProfile(uid: string, updates: Partial<User>): Promise<User> {
+    try {
+      const userDoc = await getDoc(doc(db, "users", uid));
+
+      if (!userDoc.exists()) {
+        throw new Error("Usuário não encontrado");
+      }
+
+      const currentUser = convertFirestoreUser(userDoc.data());
+      const updatedUser: User = {
+        ...currentUser,
+        ...updates,
+        updatedAt: new Date(),
+      };
+
+      // Remove campos undefined antes de salvar
+      const userDataToSave = removeUndefinedFields(
+        updatedUser as unknown as Record<string, unknown>
+      );
+
+      await setDoc(doc(db, "users", uid), userDataToSave);
+
+      return updatedUser;
+    } catch (error) {
+      const message = getFirebaseErrorMessage(error as firebaseError | string);
+      throw new Error(message);
+    }
+  },
+
+  async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    try {
+      const firebaseUser = auth.currentUser;
+      if (!firebaseUser || !firebaseUser.email) {
+        throw new Error("Usuário não autenticado");
+      }
+
+      if (newPassword.length < 6) {
+        throw new Error("A senha deve ter pelo menos 6 caracteres");
+      }
+
+      // Reautenticar o usuário com a senha atual
+      const credential = EmailAuthProvider.credential(
+        firebaseUser.email,
+        currentPassword
+      );
+      await reauthenticateWithCredential(firebaseUser, credential);
+
+      // Atualizar a senha
+      await updatePassword(firebaseUser, newPassword);
     } catch (error) {
       const message = getFirebaseErrorMessage(error as firebaseError | string);
       throw new Error(message);

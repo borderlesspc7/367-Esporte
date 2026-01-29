@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../../hooks/useAuth";
+import { useNotifications } from "../../../contexts/NotificationContext";
+import { useNavigate } from "react-router-dom";
 import { LogOut, User, ChevronDown, Settings, Bell } from "lucide-react";
 import logo from "../../../assets/logo_branca__1_-removebg-preview.png";
+import { NotificationPanel } from "../../ui/NotificationPanel/NotificationPanel";
 import "./Header.css";
 
 interface HeaderProps {
@@ -10,7 +13,10 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
   const { user } = useAuth();
+  const { unreadCount } = useNotifications();
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotificationPanelOpen, setIsNotificationPanelOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Fechar dropdown ao clicar fora
@@ -52,9 +58,15 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
 
       <div className="header-right">
         {/* Notificações */}
-        <button className="header-icon-btn" title="Notificações">
+        <button
+          className="header-icon-btn"
+          title="Notificações"
+          onClick={() => setIsNotificationPanelOpen(true)}
+        >
           <Bell size={20} />
-          <span className="notification-badge">3</span>
+          {unreadCount > 0 && (
+            <span className="notification-badge">{unreadCount > 99 ? "99+" : unreadCount}</span>
+          )}
         </button>
 
         {/* Perfil do usuário */}
@@ -91,11 +103,23 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
                 <div className="dropdown-divider"></div>
 
                 <div className="dropdown-items">
-                  <button className="dropdown-item">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      navigate("/perfil");
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     <User size={16} />
                     <span>Meu Perfil</span>
                   </button>
-                  <button className="dropdown-item">
+                  <button
+                    className="dropdown-item"
+                    onClick={() => {
+                      navigate("/configuracoes");
+                      setIsDropdownOpen(false);
+                    }}
+                  >
                     <Settings size={16} />
                     <span>Configurações</span>
                   </button>
@@ -115,6 +139,11 @@ export const Header: React.FC<HeaderProps> = ({ onLogout }) => {
           </div>
         )}
       </div>
+
+      {/* Painel de Notificações */}
+      {isNotificationPanelOpen && (
+        <NotificationPanel onClose={() => setIsNotificationPanelOpen(false)} />
+      )}
     </header>
   );
 };

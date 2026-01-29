@@ -6,6 +6,7 @@ export interface User {
   updatedAt: Date;
   role?: "admin" | "user";
   phone?: string;
+  photoURL?: string;
 }
 
 export interface AuthState {

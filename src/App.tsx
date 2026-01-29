@@ -1,10 +1,15 @@
 import { AppRoutes } from "./routes/AppRoutes";
 import { AuthProvider } from "./contexts/AuthContext";
+import { NotificationProvider } from "./contexts/NotificationContext";
+import { ToastContainer } from "./components/ui/Toast/ToastContainer";
 
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <NotificationProvider>
+        <AppRoutes />
+        <ToastContainer />
+      </NotificationProvider>
     </AuthProvider>
   );
 }
