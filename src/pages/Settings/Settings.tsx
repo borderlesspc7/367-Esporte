@@ -10,7 +10,6 @@ import {
   Bell,
   Shield,
   Palette,
-  Globe,
   Moon,
   Sun,
   Save,
@@ -51,7 +50,9 @@ const Settings: React.FC = () => {
         addNotification(
           "error",
           "Erro ao carregar",
-          error instanceof Error ? error.message : "Não foi possível carregar as configurações."
+          error instanceof Error
+            ? error.message
+            : "Não foi possível carregar as configurações.",
         );
         // Usar configurações padrão em caso de erro
         setSettings(defaultSettings);
@@ -77,12 +78,18 @@ const Settings: React.FC = () => {
     try {
       setLoading(true);
       await settingsService.saveSettings(user.uid, settings);
-      addNotification("success", "Configurações salvas", "Suas preferências foram atualizadas com sucesso!");
+      addNotification(
+        "success",
+        "Configurações salvas",
+        "Suas preferências foram atualizadas com sucesso!",
+      );
     } catch (error) {
       addNotification(
         "error",
         "Erro ao salvar",
-        error instanceof Error ? error.message : "Não foi possível salvar as configurações."
+        error instanceof Error
+          ? error.message
+          : "Não foi possível salvar as configurações.",
       );
     } finally {
       setLoading(false);
@@ -90,25 +97,48 @@ const Settings: React.FC = () => {
   };
 
   const handleChangePassword = async () => {
-    if (!passwordData.currentPassword || !passwordData.newPassword || !passwordData.confirmPassword) {
-      addNotification("error", "Campos obrigatórios", "Preencha todos os campos.");
+    if (
+      !passwordData.currentPassword ||
+      !passwordData.newPassword ||
+      !passwordData.confirmPassword
+    ) {
+      addNotification(
+        "error",
+        "Campos obrigatórios",
+        "Preencha todos os campos.",
+      );
       return;
     }
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      addNotification("error", "Senhas não coincidem", "As senhas não são iguais.");
+      addNotification(
+        "error",
+        "Senhas não coincidem",
+        "As senhas não são iguais.",
+      );
       return;
     }
 
     if (passwordData.newPassword.length < 6) {
-      addNotification("error", "Senha muito curta", "A senha deve ter pelo menos 6 caracteres.");
+      addNotification(
+        "error",
+        "Senha muito curta",
+        "A senha deve ter pelo menos 6 caracteres.",
+      );
       return;
     }
 
     try {
       setChangingPassword(true);
-      await authService.changePassword(passwordData.currentPassword, passwordData.newPassword);
-      addNotification("success", "Senha alterada", "Sua senha foi alterada com sucesso!");
+      await authService.changePassword(
+        passwordData.currentPassword,
+        passwordData.newPassword,
+      );
+      addNotification(
+        "success",
+        "Senha alterada",
+        "Sua senha foi alterada com sucesso!",
+      );
       setShowPasswordModal(false);
       setPasswordData({
         currentPassword: "",
@@ -119,7 +149,9 @@ const Settings: React.FC = () => {
       addNotification(
         "error",
         "Erro ao alterar senha",
-        error instanceof Error ? error.message : "Não foi possível alterar a senha."
+        error instanceof Error
+          ? error.message
+          : "Não foi possível alterar a senha.",
       );
     } finally {
       setChangingPassword(false);
@@ -134,7 +166,9 @@ const Settings: React.FC = () => {
     return (
       <div className="settings-container">
         <div className="settings-card">
-          <div style={{ textAlign: "center", padding: "2rem", color: "#cbd5e1" }}>
+          <div
+            style={{ textAlign: "center", padding: "2rem", color: "#cbd5e1" }}
+          >
             Carregando configurações...
           </div>
         </div>
@@ -280,9 +314,7 @@ const Settings: React.FC = () => {
 
               <div className="settings-option">
                 <div className="settings-option-content">
-                  <label className="settings-option-label">
-                    Mostrar Email
-                  </label>
+                  <label className="settings-option-label">Mostrar Email</label>
                   <span className="settings-option-description">
                     Exibir seu email no perfil público
                   </span>
@@ -364,7 +396,9 @@ const Settings: React.FC = () => {
                 <select
                   className="settings-select"
                   value={settings.language}
-                  onChange={(e) => handleSelectChange("language", e.target.value)}
+                  onChange={(e) =>
+                    handleSelectChange("language", e.target.value)
+                  }
                 >
                   <option value="pt-BR">Português (Brasil)</option>
                   <option value="en-US">English (US)</option>
@@ -402,14 +436,12 @@ const Settings: React.FC = () => {
 
               <div className="settings-option">
                 <div className="settings-option-content">
-                  <label className="settings-option-label">
-                    Alterar Senha
-                  </label>
+                  <label className="settings-option-label">Alterar Senha</label>
                   <span className="settings-option-description">
                     Atualize sua senha regularmente para manter sua conta segura
                   </span>
                 </div>
-                <button 
+                <button
                   className="settings-action-btn"
                   onClick={() => setShowPasswordModal(true)}
                 >
@@ -423,7 +455,10 @@ const Settings: React.FC = () => {
 
       {/* Modal de Alterar Senha */}
       {showPasswordModal && (
-        <div className="settings-modal-overlay" onClick={() => setShowPasswordModal(false)}>
+        <div
+          className="settings-modal-overlay"
+          onClick={() => setShowPasswordModal(false)}
+        >
           <div className="settings-modal" onClick={(e) => e.stopPropagation()}>
             <div className="settings-modal-header">
               <h3 className="settings-modal-title">Alterar Senha</h3>
@@ -443,7 +478,10 @@ const Settings: React.FC = () => {
                     className="settings-form-input"
                     value={passwordData.currentPassword}
                     onChange={(e) =>
-                      setPasswordData({ ...passwordData, currentPassword: e.target.value })
+                      setPasswordData({
+                        ...passwordData,
+                        currentPassword: e.target.value,
+                      })
                     }
                     placeholder="Digite sua senha atual"
                   />
@@ -451,10 +489,17 @@ const Settings: React.FC = () => {
                     type="button"
                     className="settings-password-toggle"
                     onClick={() =>
-                      setShowPasswords({ ...showPasswords, current: !showPasswords.current })
+                      setShowPasswords({
+                        ...showPasswords,
+                        current: !showPasswords.current,
+                      })
                     }
                   >
-                    {showPasswords.current ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPasswords.current ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
@@ -467,7 +512,10 @@ const Settings: React.FC = () => {
                     className="settings-form-input"
                     value={passwordData.newPassword}
                     onChange={(e) =>
-                      setPasswordData({ ...passwordData, newPassword: e.target.value })
+                      setPasswordData({
+                        ...passwordData,
+                        newPassword: e.target.value,
+                      })
                     }
                     placeholder="Digite sua nova senha"
                   />
@@ -475,23 +523,35 @@ const Settings: React.FC = () => {
                     type="button"
                     className="settings-password-toggle"
                     onClick={() =>
-                      setShowPasswords({ ...showPasswords, new: !showPasswords.new })
+                      setShowPasswords({
+                        ...showPasswords,
+                        new: !showPasswords.new,
+                      })
                     }
                   >
-                    {showPasswords.new ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPasswords.new ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
 
               <div className="settings-form-group">
-                <label className="settings-form-label">Confirmar Nova Senha</label>
+                <label className="settings-form-label">
+                  Confirmar Nova Senha
+                </label>
                 <div className="settings-password-input-wrapper">
                   <input
                     type={showPasswords.confirm ? "text" : "password"}
                     className="settings-form-input"
                     value={passwordData.confirmPassword}
                     onChange={(e) =>
-                      setPasswordData({ ...passwordData, confirmPassword: e.target.value })
+                      setPasswordData({
+                        ...passwordData,
+                        confirmPassword: e.target.value,
+                      })
                     }
                     placeholder="Confirme sua nova senha"
                   />
@@ -499,10 +559,17 @@ const Settings: React.FC = () => {
                     type="button"
                     className="settings-password-toggle"
                     onClick={() =>
-                      setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })
+                      setShowPasswords({
+                        ...showPasswords,
+                        confirm: !showPasswords.confirm,
+                      })
                     }
                   >
-                    {showPasswords.confirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPasswords.confirm ? (
+                      <EyeOff size={18} />
+                    ) : (
+                      <Eye size={18} />
+                    )}
                   </button>
                 </div>
               </div>
